@@ -10,6 +10,7 @@ import java.util.TreeMap;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -109,6 +110,13 @@ public class SilkPerformerListBuilder implements Serializable
   {
     Document doc;
     DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+    String FEATURE = "http://apache.org/xml/features/disallow-doctype-decl";
+    try {
+      dbf.setFeature(FEATURE, true);
+    } catch (ParserConfigurationException e) {
+      throw new IllegalStateException("ParserConfigurationException was thrown. The feature '"
+          + FEATURE + "' is not supported by your XML processor.", e);
+    }
     try
     {
       DocumentBuilder db = dbf.newDocumentBuilder();
